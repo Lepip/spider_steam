@@ -9,10 +9,9 @@ from bs4 import BeautifulSoup
 class SteamspiderSpider(scrapy.Spider):
     argumm = 0
     def parse(self, response, **kwargs):
-        with open('products' + str(self.argumm) + '.txt', 'w') as f:
-            for a in response.xpath('//a[@data-gpnav="item"]').extract():
-                url = BeautifulSoup(a).find('a', href=True)['href']
-                yield scrapy.Request(url=url, callback=self.parse_game)
+        for a in response.xpath('//a[@data-gpnav="item"]').extract():
+            url = BeautifulSoup(a).find('a', href=True)['href']
+            yield scrapy.Request(url=url, callback=self.parse_game)
 
     name = 'SteamSpider'
     start_urls = ['https://store.steampowered.com/search/?tags=492&category1=998', 'https://store.steampowered.com/search/?tags=29482&category1=998', 'https://store.steampowered.com/search/?tags=3871&category1=998']
