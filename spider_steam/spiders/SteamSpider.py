@@ -21,6 +21,9 @@ class SteamspiderSpider(scrapy.Spider):
     def parse_game(self, response):
         if "agecheck" in response.url:
             return
+        date = int(response.xpath('//div[@class="date"]/text()').extract()[0].split()[2])
+        if date < 2000:
+            return
         item = SpiderSteamItem()
         item["name"] = response.xpath('//div[@id="appHubAppName"]/text()').extract()[0]
         item["category"] = response.xpath('//div[@class="blockbg"]/a[2]/text()').extract()[0]
